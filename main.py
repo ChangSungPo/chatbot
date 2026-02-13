@@ -1,7 +1,4 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-
-import bothandlerEngMark1 as bot_handler
+import bot_dispatcher as bot_handler
 
 import json
 import os
@@ -11,7 +8,6 @@ from messenger.bot import Bot
 app = Flask(__name__)
 WEBHOOK = '/webhook'
 VERIFY_TOKEN = os.environ['VERIFY_TOKEN']
-# client = Bot(os.environ['ACCESS_TOKEN'])
 
 @app.route('/')
 def hello_world():
@@ -28,23 +24,15 @@ def fb_webhook():
 
 @app.route(WEBHOOK, methods=['POST'])
 def fb_receive_message():
-    # return ""
     data = json.loads(request.data.decode('utf8'))
+    
     message_entries = data['entry']
     for entry in message_entries:
         for message in entry['messaging']:
-            if message.get('message'):
-                # debug
-                # sender_id = message.get('sender').get('id')
-                # client.send_text_message(sender_id, "收到訊息")
-                # handle message
-            #     print('message')
-                bot_handler.handle_message(message)
-            elif message.get('postback'):
-            #     print('postback')
-                bot_handler.handle_message(message)
+            bot_handler.handle_event(message)
     return "Hi"
 
 
 if __name__ == '__main__':
-    app.run()
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port = port)
