@@ -2,6 +2,7 @@
 from enum import Enum
 
 class Payload(str, Enum):
+    GET_STARTED_PAYLOAD = "GET_STARTED_PAYLOAD"
     GET_STARTED = "Get Started"
     TO_MENU = "To Menu"
     START_RECYCLING = "Start Recycling"

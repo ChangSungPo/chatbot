@@ -38,13 +38,24 @@ class Bot(FacebookGraphApi):
     def __init__(self, *args, **kwargs):
         super(Bot, self).__init__(*args, **kwargs)
 
-    def send_getstarted(self):
-        payload = {
+    def set_get_started_button(self):
+        url = f"{self.graph_url}/me/messenger_profile"
+        # url = f"https://graph.facebook.com/v19.0/me/messenger_profile?access_token={access_token}"
+        data = {
             "get_started": {
-                "payload": "Get Started"
+                "payload": "GET_STARTED_PAYLOAD"
             }
         }
-        return self.send_raw(payload)
+        response = requests.post(url, params=self.auth_args, json=data)
+        return response.json()        
+
+    # def send_getstarted(self):
+    #     payload = {
+    #         "get_started": {
+    #             "payload": "Get Started"
+    #         }
+    #     }
+    #     return self.send_raw(payload)
 
     def send_attachment(self, recipient_id, attachment_type, attachment_path,
                         notification_type=NotificationType.regular):

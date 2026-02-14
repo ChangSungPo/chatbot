@@ -39,7 +39,7 @@ def handle_postback(user_id, postback_data, user_data):
     action_title = postback_data["title"]
     user_state = user_data["state"]
 
-    if action_title in (Payload.TO_MENU, Payload.GET_STARTED):
+    if action_title in (Payload.TO_MENU, Payload.GET_STARTED, Payload.GET_STARTED_PAYLOAD):
         action_welcome_user(client, user_id)
     elif action_title == Payload.PROJECT_INFO:
         action_project_info(client, user_id)
